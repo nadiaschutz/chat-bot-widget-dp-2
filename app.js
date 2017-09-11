@@ -92,16 +92,31 @@ var botController = (function (message) {
 })();
 
 var uiController = (function () {
+    var DOMstrings = {
+        textMessage: "chat-input__text",
+        chatCircle: "#chat-circle",
+        chatBox: ".chat-box",
+        chatBoxClose: ".chat-box-toggle",
+        chatBoxWelcome: ".chat-box-welcome__header",
+        chatWraper: "#chat-box__wraper",
+        chatInput: "#chat-input__text",
+        submitBtn: "#chat-submit"
+
+    }
     //var index is the id of the message
     var INDEX = 0;
     return {
         getInput: function () {
             return {
-                message: document.getElementById("#chat-input__text").value
+                message: document.getElementById(DOMstrings.textMessage).value
             }
 
         },
+        getDOMstings: function () {
+            return DOMstrings;
+        },
         generate_message: function (msg, type) {
+
             //var index is the id of each message id =id+1
             INDEX++;
             var str = "";
@@ -159,23 +174,19 @@ var uiController = (function () {
         }
     };
 
-
-
-
-
 })();
 
 
-
-
 var controller = (function (botCntr, uiCntr) {
-    var $chatCircle,
-        $chatBox,
-        $chatBoxClose,
-        $chatBoxWelcome,
-        $chatWraper,
-        $submitBtn,
-        $chatInput,
+    var DOMst = uiCntr.getDOMstings();
+    var
+        /*$chatCircle,
+$chatBox,
+$chatBoxClose,
+$chatBoxWelcome,
+$chatWraper,
+$submitBtn,
+$chatInput,*/
         msg;
 
 
@@ -208,10 +219,9 @@ var controller = (function (botCntr, uiCntr) {
         //1. get input message data
         /*msg = $chatInput.val();*/
         var input = uiCntr.getInput();
-        console.log(input);
 
         //2.if there is no string button send shoudn't work
-        if (msg.trim() == '') {
+        if (input.message.trim() == '') {
             return false;
         }
 
@@ -243,22 +253,16 @@ var controller = (function (botCntr, uiCntr) {
 
 
     function init() {
-        $chatCircle = $("#chat-circle");
-        $chatBox = $(".chat-box");
-        $chatBoxClose = $(".chat-box-toggle");
-        $chatBoxWelcome = $(".chat-box-welcome__header");
-        $chatWraper = $("#chat-box__wraper");
-        $chatInput = $("#chat-input__text");
-        $submitBtn = $("#chat-submit");
+        msg = DOMst.chatInput.val();
 
         //1. call toggle 
-        $chatCircle.on("click", hideCircle);
-        $chatBoxClose.on("click", chatBoxCl);
-        $chatInput.on("click", chatOpenMessage);
+        DOMst.chatCircle.on("click", hideCircle);
+        DOMst.chatBoxClose.on("click", chatBoxCl);
+        DOMst.chatInput.on("click", chatOpenMessage);
 
         //2. call wait message from CRM-human
 
-        $submitBtn.on("click", submitMsg);
+        DOMst.submitBtn.on("click", submitMsg);
 
         //6. get message from bot controller-back end
         //7. display bot message to ui controller
