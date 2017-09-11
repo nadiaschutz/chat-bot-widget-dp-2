@@ -60,6 +60,7 @@ var botController = (function (message) {
                     if (bot_score > TOP_THRESHOLD || bot_score < BOTTOM_THRESHOLD) {
 
                         generate_message(bot_msg, 'bot');
+
                     } else if (bot_score < TOP_THRESHOLD && bot_score > BOTTOM_THRESHOLD) {
                         var botMatches = response.data.matches;
                         if (botMatches || botMatches.length > 0) {
@@ -73,7 +74,8 @@ var botController = (function (message) {
                             options = [];
                         }
                     }
-                },
+                }
+                /*,
                 error: function (response) {
                     var pixelResponse = {
                         score: 1,
@@ -82,13 +84,10 @@ var botController = (function (message) {
                         matchId: 0,
                     };
                     addPixelMessage(pixelResponse, true);
-                }
+                }*/
             });
         }
     }
-
-
-
 
 })();
 
@@ -96,6 +95,12 @@ var uiController = (function () {
     //var index is the id of the message
     var INDEX = 0;
     return {
+        getInput: function () {
+            return {
+                message: document.getElementById("#chat-input__text").value
+            }
+
+        },
         generate_message: function (msg, type) {
             //var index is the id of each message id =id+1
             INDEX++;
@@ -156,13 +161,6 @@ var uiController = (function () {
 
 
 
-    var optionMsg = function generate_options(b) {
-        /*what is the weather like in toronto now*/
-
-
-        /*b.length=0;*/
-
-    }
 
 
 })();
@@ -178,7 +176,8 @@ var controller = (function (botCntr, uiCntr) {
         $chatWraper,
         $submitBtn,
         $chatInput,
-        $msg;
+        msg;
+
 
     /*toggle*/
     function hideCircle(evt) {
@@ -205,10 +204,11 @@ var controller = (function (botCntr, uiCntr) {
     //generate messages on submit click
     function submitMsg(evt) {
         evt.preventDefault();
-        console.log("btn pushed");
 
         //1. get input message data
-        msg = $chatInput.val();
+        /*msg = $chatInput.val();*/
+        var input = uiCntr.getInput();
+        console.log(input);
 
         //2.if there is no string button send shoudn't work
         if (msg.trim() == '') {
