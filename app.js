@@ -46,9 +46,10 @@ var controller = (function (botCntr, uiCntr) {
     //generate messages on submit click
     function submitMsg(evt) {
         evt.preventDefault();
+        console.log("btn pushed");
 
         //1. get input message data
-        msg = $chatSubmitBtn.val();
+        msg = $chatInput.val();
 
         //2.if there is no string button send shoudn't work
         if (msg.trim() == '') {
@@ -61,13 +62,11 @@ var controller = (function (botCntr, uiCntr) {
 
     }
 
-    function chatSbmBtn(evt) {
-        if (evt.keyCode === 13 || evt.which === 13 || evt.click) {
-            console.log("btn pushed");
-        } else {
-            console.log("btn pushed");
-        }
-    }
+    /* function chatSbmBtn(evt) {
+     if (evt.keyCode === 13 || evt.which === 13) {
+         console.log("btn pushed");
+     }
+ }*/
     /* var input = uiCntr.getInput();*/
     /* $chatSubmitBtn.on("click", hideCircle);*/
 
@@ -89,9 +88,7 @@ var controller = (function (botCntr, uiCntr) {
 
         //2. call wait message from CRM-human
 
-        $submitBtn.on("click", chatSbmBtn);
-        $chatInput.on("keypress", 13, chatSbmBtn);
-
+        $submitBtn.on("click", submitMsg);
 
         //6. get message from bot controller-back end
         //7. display bot message to ui controller
